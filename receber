@@ -1,0 +1,29 @@
+void aoReceber(const wifi_tx_info_t info, const uint8_t* data, int len){
+  memcpy(&dados, data, sizeof(dados));
+
+  Serial.print("De: ");
+  for (int i = 0; i < 6; i++) {
+    Serial.printf("%02X", info->src_addr[i]);
+    if (i < 5) Serial.print(":");
+  }
+  Serial.println();
+
+  Serial.print("Temperatura: ");    
+  Serial.println(dados.temperatura);
+  Serial.print("Umidade: "); 
+  Serial.println(dados.umidade);
+  Serial.print("Distancia: ");     
+  Serial.println(dados.distancia);
+}
+
+void setupEspNow(){
+  WiFi.mode(WIFI_STA);
+  if(esp_now_init() != ESP_OK){
+    digitalWrite("Erro ao iniciar ESP-NOW");
+    delay(2000);
+    ESP.restart();
+  }
+
+  esp_now_register_recv_cb(aoReceber);
+  Serial.println("Receptor pronto");
+}
