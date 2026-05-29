@@ -2,9 +2,9 @@
 #include <esp_now.h>
 
 typedef struct{
-  float nivelTanque;
   float temperatura;
   float umidade;
+  float distancia;
 } DadosRecebidos;
 
 DadosRecebidos dados;
